@@ -31,10 +31,10 @@ private By SignInButton=By.xpath("//a[@class='login']");
 private By SearchBox=By.xpath("//input[@id='search_query_top']");
 private By DressSearchList=By.xpath("//div[@class='ac_results']/ul/li");
 private By twitter=By.xpath("//a[@href='https://twitter.com/seleniumfrmwrk']");
-private By sendBtn=By.xpath("//button[@name='submitNewsletter']");
+private By sendBtn=By.name("submitNewsletter");
 private By TwitterAccount=By.xpath("//div[@class='css-1dbjc4n r-6gpygo r-14gqq1x']//span/span");
-private By emailbox=By.xpath("//input[@id='newsletter-input']");
-private By successmessage=By.xpath("//p[@class='alert alert-success']"); 
+private By emailbox=By.id("newsletter-input");
+private By successmessage=By.xpath("//div[@class='clearfix']/following-sibling::p[@class='alert alert-success']"); 
 
 
 public LandingPageObjects(WebDriver driver,Scenario scn)
@@ -43,18 +43,17 @@ public LandingPageObjects(WebDriver driver,Scenario scn)
 	this.scn=scn;
 }
 
-public void URLvalidationTest()
+public void URLvalidationTest(String url)
 {
-	String ExpectedUrl="http://automationpractice.com/index.php";
-	Assert.assertEquals(ExpectedUrl, driver.getCurrentUrl());
+	Assert.assertEquals(url, driver.getCurrentUrl());
 	scn.log("URL validation successful. Actual URL :" + driver.getCurrentUrl());
 	logger.info("URL validation successful. Actual URL :" + driver.getCurrentUrl());
 }
 
-public void TitlevalidationTest()
+public void TitlevalidationTest(String Landingpagetitle)
 {
-	String ExpectedTitle="My Store";
-	  Assert.assertEquals(ExpectedTitle, driver.getTitle());
+	
+	  Assert.assertEquals(Landingpagetitle, driver.getTitle());
 	  scn.log("Title validation successful. Actual Title :" + driver.getTitle());
 	  logger.info("Title validation successful. Actual Title :" + driver.getTitle());
 }
@@ -84,19 +83,19 @@ public void logodisplaytest()
 		logger.info("Landing page logo is displayed"); 
 }
 
-public void logoheighttest()
+public void logoheighttest(String logoheight)
 {
 	WebElement LogoImageElement=driver.findElement(LogoImage);
 	logger.info("created webelement for logoimage");
-    Assert.assertEquals("99",LogoImageElement.getAttribute("height"));
+    Assert.assertEquals(logoheight,LogoImageElement.getAttribute("height"));
     scn.log("Landing page logo height is 99");
     logger.info("Landing page logo height is 99");	
 }
-public void logowidthtest() 
+public void logowidthtest(String logowidth) 
 {
 	WebElement LogoImageElement=driver.findElement(LogoImage);
 	logger.info("created webelement for logoimage");
-	Assert.assertEquals("350",LogoImageElement.getAttribute("width"));
+	Assert.assertEquals(logowidth,LogoImageElement.getAttribute("width"));
 	 scn.log("Landing page logo width is 350");
 	 logger.info("Landing page logo width is 350");	
 }
@@ -107,10 +106,9 @@ public void logowidthtest()
 		logger.info("Clicked on sign in button");
 		Thread.sleep(3000);
  }
- public void signinpagetitletest()
+ public void signinpagetitletest(String signinpagetitle)
  {
-	 String Expsignintitle="Login - My Store";
-	  Assert.assertEquals(Expsignintitle, driver.getTitle());
+	  Assert.assertEquals(signinpagetitle, driver.getTitle());
 	  scn.log("Sign in page title is :" + driver.getTitle());
 	  logger.info("Sign in page title is :" + driver.getTitle());
 	  
@@ -138,8 +136,11 @@ public void productlisttest()
 	    	logger.info("Search list is printed");
 	    	if(DressSearchListElement.get(i).getText().contains("Dress"))
 	    	{
+	    		Assert.assertTrue(true);
+	    		logger.info("Search result containing text dress");
 	    		count++;
 	    		logger.info("Count increased by 1");
+	    		
 	    	}
 	    			
 	    }
@@ -174,12 +175,13 @@ public void twiterpagedisplaytest()
     logger.info("Twitter Account name is :" + TwitterAccountElement.getText());
 }
 
-public void newslettervalidationtest(String email) 
+public void newslettervalidationtest() 
 {
+	String emailID="ashwini693@gmail.com";
 	
 	WebElement emailboxElement=driver.findElement(emailbox);
 	logger.info("created WebElement for email box");
-	emailboxElement.sendKeys(email);
+	emailboxElement.sendKeys(emailID);
 	logger.info("email entered in email box");
 	
 	WebElement sendBtnElement=driver.findElement(sendBtn);
@@ -189,11 +191,25 @@ public void newslettervalidationtest(String email)
 }
 public void subscriptionsuccesstest()
 {
-	WebElement successmessageElement=driver.findElement(successmessage);
-	logger.info("created WebElement for successmessage");
-	 String Expsuccessmessage="Newsletter : You have successfully subscribed to this newsletter.";
-	 Assert.assertEquals(Expsuccessmessage, successmessageElement.getText()); 
-	 scn.log("After successful email subscription the message should be: "+ successmessageElement.getText());
-	 logger.info("After successful email subscription the message should be: "+ successmessageElement.getText());
+	try {
+		WebElement successmessageElement=driver.findElement(successmessage);
+		logger.info("created WebElement for successmessage");
+		 String Expsuccessmessage="Newsletter : You have successfully subscribed to this newsletter.";
+		 Assert.assertEquals(Expsuccessmessage, successmessageElement.getText()); 
+		 scn.log("After successful email subscription the message should be: "+ successmessageElement.getText());
+		 logger.info("After successful email subscription the message should be: "+ successmessageElement.getText());
+		
+	} 
+	catch (Exception e) 
+	{
+		WebElement failuremessage=driver.findElement(By.xpath("//p[@class='alert alert-danger']"));
+		String Expectedfailuremsg="Newsletter : This email address is already registered.";
+		Assert.assertEquals(Expectedfailuremsg,failuremessage.getText());
+		logger.info("this email is already registered");
+	}
+	
+	
+	
+	}
 }
-}
+

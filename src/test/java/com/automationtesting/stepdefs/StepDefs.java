@@ -89,18 +89,20 @@ public void user_navigated_to_home_application_url() throws Exception
    logger.info("Browser navigated to URL :" + Base_Url);
   
 }
-@Then("Landing page URL validated")
-public void landing_page_url_validated() 
+
+@Then("Landing page URL after redirection will be {string}")
+public void landing_page_url_after_redirection_will_be(String url) 
 {
-	
-	landingPageObjects.URLvalidationTest();  
+	landingPageObjects.URLvalidationTest(url);  
 }
 
-@Then("Landing page title validated")
-public void landing_page_title_validated() 
+
+@Then("Landing page title validated with {string}")
+public void landing_page_title_validated_with(String Landingpagetitle) 
 {
-	landingPageObjects.TitlevalidationTest();
+	landingPageObjects.TitlevalidationTest(Landingpagetitle);  
 }
+
 
 @Then("All product catagories are displayed")
 public void all_product_catagories_are_displayed() 
@@ -116,31 +118,31 @@ public void landing_page_logo_is_displayed()
 }
 
 
-@Then("Landing page logo height validated")
-public void landing_page_logo_height_validated() 
-{
-	
-	landingPageObjects.logoheighttest();
+
+@Then("Landing page logo height validated with {string}")
+public void landing_page_logo_height_validated_with(String logoheight) {
+	landingPageObjects.logoheighttest(logoheight);
 }
 
-@Then("Landing page logo width validated")
-public void landing_page_logo_width_validated() 
+@Then("Landing page logo width validated with {string}")
+public void landing_page_logo_width_validated_with(String logowidth) 
 {
-	landingPageObjects.logowidthtest();
+	landingPageObjects.logowidthtest(logowidth);
 }
+
+
 
 @When("Click On Sign in button")
 public void click_on_sign_in_button() throws InterruptedException 
 {
 	landingPageObjects.signinclicktest();
 	
-    
 }
 
-@Then("Sign in page title validated")
-public void sign_in_page_title_validated() 
+@Then("Sign in page title validated with {string}")
+public void sign_in_page_title_validated_with(String Signinpagetitle) 
 {
-	landingPageObjects.signinpagetitletest();
+	landingPageObjects.signinpagetitletest(Signinpagetitle);  
 }
 
 @When("Search for product {string}")
@@ -157,12 +159,12 @@ public void list_for_product_is_displayed()
     
 }
 
-@When("Click on twitter")
-public void click_on_twitter() 
+@When("Click on icon twitter from the bottom of page")
+public void click_on_icon_twitter_from_the_bottom_of_page() 
 {
-	landingPageObjects.twiterclicktest(); 
-  
+	landingPageObjects.twiterclicktest();   
 }
+
 
 @Then("Twitter social media page displayed")
 public void twitter_social_media_page_displayed()
@@ -171,10 +173,12 @@ public void twitter_social_media_page_displayed()
 	landingPageObjects.twiterpagedisplaytest();
 }
 
-@When("enter {string} in newsletter and click on proceed")
-public void enter_in_newsletter_and_click_on_proceed(String email) 
+
+
+@When("enter email id in newsletter emailfield and click on proceed")
+public void enter_email_id_in_newsletter_emailfield_and_click_on_proceed() 
 {
-	landingPageObjects.newslettervalidationtest(email);	 
+	landingPageObjects.newslettervalidationtest();	   
 }
 
 @Then("Email subscription successful is validated")
